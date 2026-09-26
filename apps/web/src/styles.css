@@ -1,0 +1,241 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f2ea;
+  color: #2d2416;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #3c2f1e;
+  color: #ffe9b3;
+  padding: 0.8rem 1.4rem;
+}
+
+.topbar button {
+  background: #ffb400;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.4rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2d9c6;
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  box-shadow: 0 1px 3px rgba(60, 47, 30, 0.08);
+}
+
+.card h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1.05rem;
+}
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.login-card {
+  width: min(360px, 92vw);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.login-card input {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #d8cdb4;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.login-card button {
+  padding: 0.65rem;
+  background: #ffb400;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.error-text {
+  color: #b3261e;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #eee4d0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.pill.PASSED {
+  background: #dcf5dc;
+  color: #1b6e1b;
+}
+
+.pill.PARTIAL_PASSED {
+  background: #fdf1cd;
+  color: #8a6d00;
+}
+
+.pill.FLAGGED {
+  background: #fde8cd;
+  color: #9a5200;
+}
+
+.pill.REJECTED {
+  background: #fadcdc;
+  color: #a11c1c;
+}
+
+.pill.BASELINE {
+  background: #dcebf5;
+  color: #1c5a8a;
+}
+
+.pill.SWARMING,
+.pill.QUEEN_DISTRESS {
+  background: #fde8cd;
+  color: #9a5200;
+}
+
+.pill.STABLE {
+  background: #e8e3f5;
+  color: #4a3d8a;
+}
+
+.pill.TILT_ALERT,
+.pill.MOTION_IMPULSE {
+  background: #fadcdc;
+  color: #a11c1c;
+}
+
+.muted {
+  color: #8b7d63;
+  font-size: 0.88rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+}
+
+.kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed #eee4d0;
+  font-size: 0.92rem;
+}
+
+.kv:last-child {
+  border-bottom: none;
+}
+
+.discrepancy-list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  color: #a11c1c;
+  font-size: 0.9rem;
+}
+
+.action-btn {
+  padding: 0.5rem 0.9rem;
+  background: #3c2f1e;
+  color: #ffe9b3;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qr-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.code-text {
+  font-family: ui-monospace, monospace;
+  background: #f5f2ea;
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.form-grid label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5c4d33;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #d8cdb4;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  background: #fff;
+}
+
+.upload-form .action-btn {
+  margin-top: 0.3rem;
+}

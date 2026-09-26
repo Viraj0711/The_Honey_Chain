@@ -1,0 +1,5 @@
+export const ACCENT = '#F5A623'
+export const CRIMSON = '#FF4747'
+export const INK = '#F2E9DA'
+export const INK_DIM = '#B9AE99'
+export const PROSE = '#CBBFAA'
