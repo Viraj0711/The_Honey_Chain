@@ -1,0 +1,38 @@
+{
+  "rules": {
+    "users": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && auth.uid === $userId"
+      }
+    },
+    "beehive": {
+      ".read": true,
+      ".write": "!data.exists() || data.child('latest/timestamp').val() <= newData.child('latest/timestamp').val()"
+    },
+    "nodes": {
+      ".read": true,
+      ".write": false
+    },
+    "hardware-reports": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "lab-reports": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "final-reports": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "dag-evidence": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "devices": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}
