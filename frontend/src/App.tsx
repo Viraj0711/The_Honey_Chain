@@ -1,26 +1,29 @@
-import { useEffect, useState } from 'react'
-import CinematicBackground from './components/CinematicBackground'
-import KineticCursor from './components/KineticCursor'
-import DashboardHeader from './components/DashboardHeader'
-import TelemetryGrid from './components/TelemetryGrid'
-import SpectrogramPanel from './components/SpectrogramPanel'
-import ColonyStatusPanel from './components/ColonyStatusPanel'
-import FieldNotesPanel from './components/FieldNotesPanel'
-import DiagnosticFeed from './components/DiagnosticFeed'
-import { isDistress, useMockTelemetry } from './lib/telemetry'
+import { useEffect, useState } from "react";
+import CinematicBackground from "./components/CinematicBackground";
+import KineticCursor from "./components/KineticCursor";
+import DashboardHeader from "./components/DashboardHeader";
+import TelemetryGrid from "./components/TelemetryGrid";
+import SpectrogramPanel from "./components/SpectrogramPanel";
+import ColonyStatusPanel from "./components/ColonyStatusPanel";
+import FieldNotesPanel from "./components/FieldNotesPanel";
+import DiagnosticFeed from "./components/DiagnosticFeed";
+import { isDistress, useFirebaseTelemetry } from "./lib/telemetry";
 
-const CLOCK_INTERVAL_MS = 1000
+const CLOCK_INTERVAL_MS = 1000;
 
 export default function App() {
-  const { telemetry, logs } = useMockTelemetry()
-  const [clock, setClock] = useState(() => new Date())
+  const { telemetry, logs } = useFirebaseTelemetry();
+  const [clock, setClock] = useState(() => new Date());
 
   useEffect(() => {
-    const id = window.setInterval(() => setClock(new Date()), CLOCK_INTERVAL_MS)
-    return () => window.clearInterval(id)
-  }, [])
+    const id = window.setInterval(
+      () => setClock(new Date()),
+      CLOCK_INTERVAL_MS,
+    );
+    return () => window.clearInterval(id);
+  }, []);
 
-  const distress = isDistress(telemetry)
+  const distress = isDistress(telemetry);
 
   return (
     <>
@@ -46,9 +49,9 @@ export default function App() {
 
         <footer className="mt-4 flex flex-wrap items-center justify-between gap-2 pb-2 text-[11px] tracking-[0.18em] text-ink-dim uppercase">
           <span>HoneyChain MVP · Software-First prototype</span>
-          <span>Mock telemetry · no physical ESP32-S3 attached</span>
+          <span>Live telemetry · Firebase realtime feed</span>
         </footer>
       </div>
     </>
-  )
+  );
 }
