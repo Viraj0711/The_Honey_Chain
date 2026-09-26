@@ -10,6 +10,11 @@ export interface Telemetry {
   timestamp: string;
   dht22: { temp_c: number; humidity_percent: number };
   inmp441: { dominant_hz: number; state: ColonyState };
+  tinyml: {
+    status: string;
+    prob_present: number;
+    prob_absent: number;
+  };
 }
 
 export interface DiagnosticEntry {
@@ -151,11 +156,17 @@ function normalizeTelemetry(
       0,
   );
   const status = String(payload.status ?? "HEALTHY").toUpperCase();
+  const probPresent = Number(payload.prob_present ?? payload.probPresent ?? 0);
+  const probAbsent = Number(payload.prob_absent ?? payload.probAbsent ?? 0);
   const timestamp = Number(payload.timestamp ?? Date.now());
-  const isDistress =
+
+  const tinymlState =
+    status.includes("QUEEN_ABSENT") ||
     status.includes("DISTRESS") ||
-    status.includes("UNHEALTHY") ||
-    hz >= ACOUSTIC_BANDS.distress.from;
+    status.includes("ALERT") ||
+    probAbsent > probPresent
+      ? "QUEEN_DISTRESS"
+      : "NORMAL";
 
   return {
     timestamp: new Date(timestamp).toISOString(),
@@ -165,7 +176,12 @@ function normalizeTelemetry(
     },
     inmp441: {
       dominant_hz: Number.isFinite(hz) ? Math.round(hz) : 0,
-      state: isDistress ? "QUEEN_DISTRESS" : "NORMAL",
+      state: tinymlState,
+    },
+    tinyml: {
+      status: status || "HEALTHY",
+      prob_present: Number.isFinite(probPresent) ? probPresent : 0,
+      prob_absent: Number.isFinite(probAbsent) ? probAbsent : 0,
     },
   };
 }
@@ -198,6 +214,11 @@ export function useMockTelemetry() {
     timestamp: new Date().toISOString(),
     dht22: { temp_c: 34.2, humidity_percent: 62.5 },
     inmp441: { dominant_hz: 168, state: "NORMAL" },
+    tinyml: {
+      status: "HEALTHY",
+      prob_present: 0.8,
+      prob_absent: 0.2,
+    },
   }));
   const [logs, setLogs] = useState<DiagnosticEntry[]>(seedEntries);
   const distressUntil = useRef(0);
@@ -240,6 +261,11 @@ export function useMockTelemetry() {
             dominant_hz: Math.round(hz),
             state: distress ? "QUEEN_DISTRESS" : "NORMAL",
           },
+          tinyml: {
+            status: distress ? "ALERT: QUEEN_ABSENT (100.0%)" : "HEALTHY",
+            prob_present: distress ? 0.01 : 0.8,
+            prob_absent: distress ? 0.99 : 0.2,
+          },
         };
       });
     }, STREAM_INTERVAL_MS);
@@ -267,6 +293,11 @@ export function useFirebaseTelemetry() {
     timestamp: new Date().toISOString(),
     dht22: { temp_c: 0, humidity_percent: 0 },
     inmp441: { dominant_hz: 0, state: "NORMAL" },
+    tinyml: {
+      status: "HEALTHY",
+      prob_present: 0,
+      prob_absent: 0,
+    },
   });
   const [logs, setLogs] = useState<DiagnosticEntry[]>([]);
 
