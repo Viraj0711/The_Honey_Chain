@@ -35,21 +35,25 @@ npm install
 
 ### 2) Set up environment variables
 
-Create a local `.env` file from the example:
+The API reads `backend/api/.env`, so create it from the example in that folder:
 
 ```bash
+cd backend/api
 copy .env.example .env
 ```
 
 If you are on macOS/Linux:
 
 ```bash
+cd backend/api
 cp .env.example .env
 ```
 
 The main values are:
 
-- `MONGODB_URI`
+- `GOOGLE_APPLICATION_CREDENTIALS`
+- `FIREBASE_DATABASE_URL`
+- `FIREBASE_STORAGE_BUCKET`
 - `JWT_SECRET`
 - `PORT`
 - `CHAIN_RPC_URL`

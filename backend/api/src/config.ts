@@ -1,6 +1,10 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { config as loadEnv } from 'dotenv';
 
-loadEnv();
+const packageDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+loadEnv({ path: path.join(packageDir, '.env') });
 
 const required = (key: string): string => {
   const value = process.env[key];
@@ -27,8 +31,10 @@ const numeric = (key: string, fallback: number): number => {
 
 const isEmulated = process.env.FIREBASE_EMULATOR_HOST !== undefined && process.env.FIREBASE_EMULATOR_HOST.trim() !== '';
 
-const serviceAccount = () => {
+const serviceAccount = (): string | { projectId: string; clientEmail: string; privateKey: string } | undefined => {
   if (isEmulated) return undefined;
+  const keyFile = optional('GOOGLE_APPLICATION_CREDENTIALS', '');
+  if (keyFile !== '') return keyFile;
   return {
     projectId: required('FIREBASE_PROJECT_ID'),
     clientEmail: required('FIREBASE_CLIENT_EMAIL'),
@@ -47,7 +53,10 @@ export const config = {
   firebase: {
     databaseURL: required('FIREBASE_DATABASE_URL'),
     projectId: optional('FIREBASE_PROJECT_ID', 'honeychain-3630b'),
-    storageBucket: optional('FIREBASE_STORAGE_BUCKET', `${optional('FIREBASE_PROJECT_ID', 'honeychain-3630b')}.appspot.com`),
+    storageBucket: optional(
+      'FIREBASE_STORAGE_BUCKET',
+      `${optional('FIREBASE_PROJECT_ID', 'honeychain-3630b')}.firebasestorage.app`,
+    ),
     serviceAccount: serviceAccount(),
   },
   web: {

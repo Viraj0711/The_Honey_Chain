@@ -4,3 +4,4 @@ dist/
 *.log
 MainMCU_FFT_Firebase.ino
 tinyml_fft_model.h.txt
+*firebase-adminsdk*.json
